@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Openstack创建虚机流程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="openstack在创建虚机的过程中nova的每个服务都扮演了什么角色，以及它们是如何协作的？">
+<meta name="keywords" content="openstack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Openstack创建虚机流程">
+<meta property="og:url" content="http://yoursite.com/2017/10/31/openstack-boot-instance/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="openstack在创建虚机的过程中nova的每个服务都扮演了什么角色，以及它们是如何协作的？">
+<meta property="og:image" content="http://ot8956ufo.bkt.clouddn.com/request-flow-for-provisioning-instance-in-openstack.png">
+<meta property="og:updated_time" content="2017-12-20T02:38:18.441Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Openstack创建虚机流程">
+<meta name="twitter:description" content="openstack在创建虚机的过程中nova的每个服务都扮演了什么角色，以及它们是如何协作的？">
+<meta name="twitter:image" content="http://ot8956ufo.bkt.clouddn.com/request-flow-for-provisioning-instance-in-openstack.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-openstack-boot-instance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/31/openstack-boot-instance/" class="article-date">
+  <time datetime="2017-10-31T09:47:12.000Z" itemprop="datePublished">2017-10-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Openstack创建虚机流程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>openstack在创建虚机的过程中nova的每个服务都扮演了什么角色，以及它们是如何协作的？</p>
+<a id="more"></a>
+<h3 id="nova组件的子服务"><a href="#nova组件的子服务" class="headerlink" title="nova组件的子服务"></a>nova组件的子服务</h3><p>nova中的各个子服务介绍：</p>
+<table>
+<thead>
+<tr>
+<th>服务</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nova-api</td>
+<td>接收并相应用户的请求，执行一些策略，并且发起一些流程，比如：启动一个虚机</td>
+</tr>
+<tr>
+<td>nova-conductor</td>
+<td>中间层，用于nova-compute和database之间的互动，消除了nova-compute服务对数据库的直接访问</td>
+</tr>
+<tr>
+<td>nova-scheduler</td>
+<td>从消息队列中获取一个虚机的请求，然后决定在哪个计算节点执行</td>
+</tr>
+<tr>
+<td>nova-compute</td>
+<td>nova组件中最核心的服务，通过调用hypervisor API实现了虚机的管理功能。比如：虚机的创建，重启，关闭，删除等操作。</td>
+</tr>
+<tr>
+<td>nova-consoleauth</td>
+<td>为控制台代理提供用户的身份令牌。</td>
+</tr>
+<tr>
+<td>nova-vpcproxy</td>
+<td>提供了一个通过VNC连接正在运行的虚机的代理。</td>
+</tr>
+</tbody>
+</table>
+<p>其中每个服务都有以下一个文件：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api.py</td>
+<td>供其他组件进行调用</td>
+</tr>
+<tr>
+<td>rpcapi.py</td>
+<td>RPC请求的封装，或者可以这样理解，RPC实现的client端</td>
+</tr>
+<tr>
+<td>manager.py</td>
+<td>服务的实现，RPC的server端</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nova创建虚机的流程"><a href="#nova创建虚机的流程" class="headerlink" title="nova创建虚机的流程"></a>nova创建虚机的流程</h3><p>创建虚机的流程图：<br><img src="http://ot8956ufo.bkt.clouddn.com/request-flow-for-provisioning-instance-in-openstack.png" alt=""></p>
+<p>创建虚机流程如下:</p>
+<ol>
+<li>通过Dashboard或者command-line获取用户凭据，然后通过RESTful API调用keystone进行身份验证；</li>
+<li>keystone对用户凭据进行认证并且生成和发送auth-token信息，以便其它组件之间通过REST-call方式发送请求时使用auth-token信息；</li>
+<li>Dashboard或者command-line将‘launch instance’或者‘nova-boot’的请求转化为一个REST API请求，并且发送给nova-api；</li>
+<li>nova-api接收到这个请求后，向keystone发送请求验证auth-token和访问权限；</li>
+<li>keystone验证token是否有效，如果有效，更新auth的头部信息，包括角色和权限，并且返回；</li>
+<li>nova-api与数据库进行通讯；</li>
+<li>对新建的虚拟机在数据库中初始化一条记录；</li>
+<li>nova-api向nova-scheduler发送RPC同步调用请求；</li>
+<li>nova-scheduler从消息队列中监听到该请求；</li>
+<li>nova-scheduler通过查询数据库计算资源的使用情况，并且通过调度算法，筛选出创建虚机使用的物理机；</li>
+<li>返回更新后的该虚拟机对应的数据库的记录，此次主要更新虚机对应的物理机的信息；</li>
+<li>nova-scheduler向指定物理机的nova-compute发送创建虚机的RPC异步请求，这里指定的物理机指的是第10步中筛选出的物理机</li>
+<li>nova-compute从消息队列中监听到该请求；</li>
+<li>nova-compute向nova-conductor发送RPC同步调用，更新虚机的信息，比如：物理机ID和规格（内存，CPU，硬盘）等信息</li>
+<li>nova-condutor从消息队列中监听到该请求；</li>
+<li>nova-conudctor更新该虚机对应的数据库记录；</li>
+<li>nova-conductor向nova-compute发送RPC异步调用，发送内容包括该虚机的信息</li>
+<li>nova-compute从消息队列中监听到该请求，并且获取到该虚机的信息；</li>
+<li>nova-compute通过auth-token访问glance-api服务，通过镜像ID获取镜像的URI，然后从镜像存储服务器上下载该镜像；</li>
+<li>glance-api调用keystone验证auth-toker信息；</li>
+<li>验证通过后，nova-compute获取镜像的元数据；</li>
+<li>nova-cmpute使用auth-toker访问Network API,给虚机分配和配置网络信息，例如：虚机的IP地址； </li>
+<li>quantum-server调用keystone验证auth-token;</li>
+<li>验证通过后，nova-compute获取到网络信息；</li>
+<li>同样的，nova-cmpute使用auth-toker访问Volume API，给虚机绑定云硬盘；</li>
+<li>cinder-api调用keystone验证auth-token</li>
+<li>nova-compute获取云硬盘信息；</li>
+<li>nova-compute生成Hypervisor驱动需要的数据，并且在Hypervisor上执行请求（通过libvirt或者API）</li>
+</ol>
+<p>参考链接：<a href="https://ilearnstack.com/2013/04/26/request-flow-for-provisioning-instance-in-openstack/comment-page-1/" target="_blank" rel="external">Request Flow for Provisioning Instance in Openstack</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/10/31/openstack-boot-instance/" data-id="ck4ffti6a000j3jsqkwp9d46i" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openstack/">openstack</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/24/python-args-kw/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          理解 Python 中的 *args 和 **kw
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/19/about-basketball-about-Manu-Ginobili/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">妖刀，潘帕斯草原上永远的雄鹰</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nova组件的子服务"><span class="toc-number">1.</span> <span class="toc-text">nova组件的子服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nova创建虚机的流程"><span class="toc-number">2.</span> <span class="toc-text">nova创建虚机的流程</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+<!--
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;776824297@qq.com
+    </div>
+-->
+     <div id="footer-right">
+       <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备17036731号-1</a>
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

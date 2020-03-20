@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>客户端无法连接MySQL服务 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="主要介绍MySQL客户端无法连接（远程连接）MySQL服务器的原因。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="客户端无法连接MySQL服务">
+<meta property="og:url" content="http://yoursite.com/2017/06/26/the-client-connect-mysql/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="主要介绍MySQL客户端无法连接（远程连接）MySQL服务器的原因。">
+<meta property="og:updated_time" content="2017-11-01T03:34:41.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="客户端无法连接MySQL服务">
+<meta name="twitter:description" content="主要介绍MySQL客户端无法连接（远程连接）MySQL服务器的原因。">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-the-client-connect-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/26/the-client-connect-mysql/" class="article-date">
+  <time datetime="2017-06-26T02:40:07.000Z" itemprop="datePublished">2017-06-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      客户端无法连接MySQL服务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>主要介绍MySQL客户端无法连接（远程连接）MySQL服务器的原因。<br><a id="more"></a><br>这里就不在过多的介绍MySQL的安装方式，不过需要的同学，可点击<a href="http://www.itdadao.com/articles/c15a1407688p0.html" target="_blank" rel="external">CentOS 6.5 版本下 MySQL 5.1.73 版本的安装</a>查看。</p>
+<p>首先介绍一下服务部署情况：</p>
+<table>
+<thead>
+<tr>
+<th>服务器</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务器A</td>
+<td>MySQL服务</td>
+</tr>
+<tr>
+<td>服务器B</td>
+<td>WEB服务</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL服务和web服务都部署成功以后，去登陆服务器B启动web服务，发现web服务启动异常，一直在提示无法连接到数据库，这就尴尬了！</p>
+<p>首先猜测，有可能是服务器B的防火墙设置不正确，MySQL服务所需的3306端口没有开放。</p>
+<p>登陆服务器B，查看，确实3306端口没有开放，于是调用如下指令开启3306端口：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> /sbin/iptables -I INPUT -p tcp --dport 3306 -j ACCEPT</div></pre></td></tr></table></figure>
+<p>然后保存：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> /etc/rc.d/init.d/iptables save</div></pre></td></tr></table></figure></p>
+<p>再次确认3306端口是否已打开：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> /etc/init.d/iptables status</div></pre></td></tr></table></figure></p>
+<p>服务器B打开3306端口后，重启服务器A的web服务，发现还是在一直报异常，无法连接数据库！这就纳闷了？还有什么没有修改的吗？为什么通过root用户无法远程连接呢？</p>
+<p>查了半天资料发现：<strong>安装了MySQL之后，MySQL的root用户默认是不开放远程访问权限的</strong>。也就是说root用户默认只能通过本地连接。</p>
+<p>所以安装完MySQL以后需要我们手动去为root用户添加远程访问权限，具体操作如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">mysql&gt;</span> grant all on *.* to root@'%' identified by 'your_password';</div></pre></td></tr></table></figure></p>
+<p>然后重启MySQL服务就OK了。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/mysql restart</div></pre></td></tr></table></figure></p>
+<p>重新启动web服务，发现服务终于启动正常了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/26/the-client-connect-mysql/" data-id="ck4ffti6m000x3jsqktogbqdi" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/07/ovirt-simple-introduce/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          oVirt简单介绍
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/24/the-read-and-the-life/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">读书以及生活</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/08/openstack-python-pdb/">Openstack如何进行代码调试</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/07/python-with/">浅谈 Python 的 with 语句</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/01/python-function-decorator/">Python之强大的装饰器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/29/python-internal-functions/">简单的几个python内置函数</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/27/we-should-not-have-been-this-way/">我们原本不该是这样</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+<!--
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;776824297@qq.com
+    </div>
+-->
+     <div id="footer-right">
+       <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备17036731号-1</a>
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

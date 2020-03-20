@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>oVirt简单介绍 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="由于公司的安排，需要熟悉oVirt，所以特别整理出这篇oVirt入门的文章，初步的对oVirt进行一个简单的介绍。">
+<meta name="keywords" content="Ovrit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oVirt简单介绍">
+<meta property="og:url" content="http://yoursite.com/2017/07/07/ovirt-simple-introduce/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="由于公司的安排，需要熟悉oVirt，所以特别整理出这篇oVirt入门的文章，初步的对oVirt进行一个简单的介绍。">
+<meta property="og:image" content="http://ot8956ufo.bkt.clouddn.com/ovirt-system-architecture.png">
+<meta property="og:image" content="http://ot8956ufo.bkt.clouddn.com/VDSM_architecture.png">
+<meta property="og:updated_time" content="2017-12-20T02:32:38.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="oVirt简单介绍">
+<meta name="twitter:description" content="由于公司的安排，需要熟悉oVirt，所以特别整理出这篇oVirt入门的文章，初步的对oVirt进行一个简单的介绍。">
+<meta name="twitter:image" content="http://ot8956ufo.bkt.clouddn.com/ovirt-system-architecture.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ovirt-simple-introduce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/07/ovirt-simple-introduce/" class="article-date">
+  <time datetime="2017-07-07T10:17:16.000Z" itemprop="datePublished">2017-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      oVirt简单介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>由于公司的安排，需要熟悉oVirt，所以特别整理出这篇oVirt入门的文章，初步的对oVirt进行一个简单的介绍。</p>
+<a id="more"></a>
+<p>在介绍oVirt之前，我们需要了解一下什么是虚拟化？</p>
+<p>根据百度百科定义，服务器虚拟化技术是将服务器物理资源抽象成逻辑资源（虚拟机），让一台服务器变成几台甚至上百台相互隔离的虚拟服务器，我们不再受限于物理上的界限，而是让CPU、内存、磁盘、I/O等硬件变成可以动态管理的“资源池”，从而提高资源的利用率，简化系统管理，实现服务器整合，让IT对业务的变化更具适应力的技术。</p>
+<p>这个定义对虚拟化技术解释的非常的透彻，进一步可以分析下虚拟化技术对于企业来说可以带来哪些收益，包括但不限于：</p>
+<ol>
+<li>节约能源。把物理服务器迁移到虚拟机然后集成在一起，很大程度上可以减少物理服务器的数量，降低了物理服务器的能源消耗；</li>
+<li>提高数据中心（机房）的空间利用率。使用虚拟化对服务器进行整合会极大的减少数据中心的碳足迹，这意味着少得多的服务器，少得多的网络设备，还有更少的机架，而且这些同样也会减少占地空间。</li>
+<li>提高服务运行时间。服务器虚拟化平台都能够提供一系列物理服务器无法提供的高级功能，用来保持业务延续和提高运行时间。比如实时迁移、存储迁移、容错、高可用性还有分布式资源管理。这些功能能够在出现问题时轻松快速的把虚拟机从一台服务器上移动到另一台，同时还能确保业务的延续。</li>
+<li>隔离应用。在没有虚拟化技术时，企业为了隔离应用，数据中心通常使用一台服务器一个应用的模式，在这种模式下，应用越多服务器就回越多，成本就回越来越高。而通过服务器虚拟化提供的应用隔离功能，你只需要很少几台物理服务器就可以建立足够多的虚拟服务器来解决这个应用隔离的问题。</li>
+<li>帮助你走入云计算。通过虚拟化你的服务器，把底层硬件（比如：存储）抽象出来，这可以说已经为搬到云里做好了准备。</li>
+</ol>
+<h3 id="oVirt概述"><a href="#oVirt概述" class="headerlink" title="oVirt概述"></a>oVirt概述</h3><p>oVirt（open Virtualization）是一种虚拟管理应用程序。意味着它可是使用oVirt管理界面（the oVirt engine）去管理硬件节点，存储和网络资源，同时它也可以部署和监控运行在数据中心的虚拟机。</p>
+<p>如果你对VMware的产品熟悉的话，其实oVirt就类似于VMware的vSphere。oVirt服务作为红帽企业虚拟化产品的基石，是RHEV的一个上游项目，新特性都是先在oVirt上开发，之后才会出现在企业版的产品中</p>
+<h3 id="oVirt体系结构"><a href="#oVirt体系结构" class="headerlink" title="oVirt体系结构"></a>oVirt体系结构</h3><p>一个标准的oVirt部署珠宝包含三部分：</p>
+<ol>
+<li>oVirt-engine，用于部署，监控，移除，停止和创建虚拟机镜像，配置存储和网络等。</li>
+<li>一台或多台云主机（nodes），用于运行虚拟机（VMs）。</li>
+<li>一个多个存储节点，用于保存与上述虚拟机相关的镜像和ISO文件。</li>
+</ol>
+<p>节点（nodes）是安装有VDSM和libvirt的Linux发行版，节点同时会安装一些额外的包，这些包可以轻松的实现网络和其它资源的虚拟化。</p>
+<p>存储节点可使用常用的基于文件系统以及基于块设备的共享存储（nfs、iscsi、fc），还能支持分布式文件系统 glusterfs。存储节点被聚合为存储池，保证高可用性和底冗余。</p>
+<p>下图为oVirt的系统架构：<br><img src="http://ot8956ufo.bkt.clouddn.com/ovirt-system-architecture.png" alt="image"><br>从上图中可以看到，oVirt通过VDSM将服务器抽象为oVirt-Node节点，这样就保证了服务器节点对管理节点有一致的试图，从而使得管理节点对集群的管理方式更加清楚。而管理节点运行oVirt-engine，为平台管理提供了丰富的功能。oVirt-engine和VDSM是oVirt云平台最关键的两大组件。</p>
+<h4 id="oVirt-engine"><a href="#oVirt-engine" class="headerlink" title="oVirt-engine"></a>oVirt-engine</h4><p>oVirt engine是一个基于Jboss的Java应用程序，是作为web服务运行的。该服务直接与服务器的VDSM通信，以此在主机上执行虚拟机的部署，启动，停止，迁移和监控操作，并且它能以存储中的模板来创建新镜像。</p>
+<h4 id="VDSM（Virtual-Desktop-and-Server-Manager）"><a href="#VDSM（Virtual-Desktop-and-Server-Manager）" class="headerlink" title="VDSM（Virtual Desktop and Server Manager）"></a>VDSM（Virtual Desktop and Server Manager）</h4><p>VDSM是使用Python开发的一个组件，它为oVirt engine提供了所有主机、虚拟机、网络和存储管理功能。</p>
+<p>下图为VDSM的内部机制：<br><img src="http://ot8956ufo.bkt.clouddn.com/VDSM_architecture.png" alt="image"></p>
+<p>通过上图可以看出，vdsm通过vdsm API对外提供服务。vdsm实现了所在主机的虚拟化抽象，使得主机转化为统一的虚拟化主机对外提供虚拟化服务。</p>
+<p>参考文献：《合型桌面云高可用性研究与实现》</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/07/ovirt-simple-introduce/" data-id="ck4ffti6c000n3jsqmjxymc6z" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ovrit/">Ovrit</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/09/how-to-scientifically-lose-weight/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          如何科学的减轻体重？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/26/the-client-connect-mysql/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">客户端无法连接MySQL服务</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#oVirt概述"><span class="toc-number">1.</span> <span class="toc-text">oVirt概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#oVirt体系结构"><span class="toc-number">2.</span> <span class="toc-text">oVirt体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#oVirt-engine"><span class="toc-number">2.1.</span> <span class="toc-text">oVirt-engine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VDSM（Virtual-Desktop-and-Server-Manager）"><span class="toc-number">2.2.</span> <span class="toc-text">VDSM（Virtual Desktop and Server Manager）</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+<!--
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;776824297@qq.com
+    </div>
+-->
+     <div id="footer-right">
+       <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备17036731号-1</a>
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

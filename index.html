@@ -3,30 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-
-  
-  <title>Hexo</title>
+  <title>Armstrong</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:title" content="Armstrong">
+<meta property="og:url" content="http://l-zz.cn/index.html">
+<meta property="og:site_name" content="Armstrong">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Armstrong">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Armstrong" type="application/atom+xml">
   
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/favicon.ico">
   
   
-<link rel="stylesheet" href="/css/style.css">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 
 <body>
   <div id="container">
@@ -34,40 +31,44 @@
       <header id="header">
   <div id="banner"></div>
   <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
+    
     <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
       <nav id="sub-nav">
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://l-zz.cn"></form>
       </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Armstrong</a>
+      </h1>
+      
     </div>
   </div>
 </header>
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-openstack-python-pdb" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/03/20/hello-world/" class="article-date">
-  <time datetime="2020-03-20T10:34:54.324Z" itemprop="datePublished">2020-03-20</time>
+    <a href="/2017/12/08/openstack-python-pdb/" class="article-date">
+  <time datetime="2017-12-08T11:40:04.000Z" itemprop="datePublished">2017-12-08</time>
 </a>
     
   </div>
@@ -78,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/20/hello-world/">Hello World</a>
+      <a class="article-title" href="/2017/12/08/openstack-python-pdb/">Openstack如何进行代码调试</a>
     </h1>
   
 
@@ -86,65 +87,505 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <p>在介绍Openstack的代码调试之前，先熟悉下在Python中是如何进行代码调试的。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/12/08/openstack-python-pdb/#more">继续阅读全文 »</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/20/hello-world/" data-id="ck801wvty00006zlvgr7ealmw" class="article-share-link">Share</a>
+      <a data-url="http://l-zz.cn/2017/12/08/openstack-python-pdb/" data-id="ck4ffti6b000l3jsqh33arq21" class="article-share-link">分享</a>
       
       
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openstack/">openstack</a></li></ul>
+
     </footer>
   </div>
   
 </article>
+ 
 
 
   
-
-
-</section>
+    <article id="post-python-with" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/07/python-with/" class="article-date">
+  <time datetime="2017-12-07T11:16:14.000Z" itemprop="datePublished">2017-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
         
-          <aside id="sidebar">
   
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/07/python-with/">浅谈 Python 的 with 语句</a>
+    </h1>
+  
+
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在阅读<code>openstack</code>的源码过程中，会在很多地方看到<code>with</code>关键字，接下来就谈谈<code>python</code>中如何使用<code>with</code>关键字。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/12/07/python-with/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/12/07/python-with/" data-id="ck4ffti6j000u3jsqjju5uhef" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
 
   
+    <article id="post-python-function-decorator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/01/python-function-decorator/" class="article-date">
+  <time datetime="2017-12-01T11:41:37.000Z" itemprop="datePublished">2017-12-01</time>
+</a>
     
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/01/python-function-decorator/">Python之强大的装饰器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Python有大量强大又贴心的特性，如果要列个最受欢迎排行榜，那么装饰器绝对会在其中。</p>
+<p>刚接触装饰器，会觉得代码不多却难以理解。其实装饰器的语法本身挺简单的，复杂是因为同时混杂了其它的概念。下面我们一起抛去无关概念，简单地理解下Python的装饰器。本文只会讲解函数装饰器而不牵涉到类装饰器。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/12/01/python-function-decorator/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/12/01/python-function-decorator/" data-id="ck4ffti6f000r3jsqvt8su04t" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
 
   
+    <article id="post-python-internal-functions" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/29/python-internal-functions/" class="article-date">
+  <time datetime="2017-11-29T11:30:05.000Z" itemprop="datePublished">2017-11-29</time>
+</a>
     
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/29/python-internal-functions/">简单的几个python内置函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>几个简单的python内置函数的介绍，以及应用。对于开发来说，这些简单的函数有时候会如虎添翼。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/29/python-internal-functions/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/11/29/python-internal-functions/" data-id="ck4ffti6g000t3jsqsj6rznmd" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-we-should-not-have-been-this-way" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/27/we-should-not-have-been-this-way/" class="article-date">
+  <time datetime="2017-11-27T14:54:46.000Z" itemprop="datePublished">2017-11-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/27/we-should-not-have-been-this-way/">我们原本不该是这样</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>早已经习惯了每天朝九晚五的生活，习惯了每天乘坐拥挤的地铁，习惯了每天满腹牢骚，习惯了每天义愤填膺，习惯了每天憧憬明天。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/27/we-should-not-have-been-this-way/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/11/27/we-should-not-have-been-this-way/" data-id="ck4ffti6p00103jsq70xgcsmy" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/感悟/">感悟</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-python-args-kw" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/24/python-args-kw/" class="article-date">
+  <time datetime="2017-11-24T07:26:59.000Z" itemprop="datePublished">2017-11-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/24/python-args-kw/">理解 Python 中的 *args 和 **kw</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>反复在Python的函数声明中见到<code>*args</code>和<code>**kw</code>，对其作用非常模糊，所以特作整理。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/24/python-args-kw/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/11/24/python-args-kw/" data-id="ck4ffti6d000p3jsqles4cgo4" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-openstack-boot-instance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/31/openstack-boot-instance/" class="article-date">
+  <time datetime="2017-10-31T09:47:12.000Z" itemprop="datePublished">2017-10-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/31/openstack-boot-instance/">Openstack创建虚机流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>openstack在创建虚机的过程中nova的每个服务都扮演了什么角色，以及它们是如何协作的？</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/10/31/openstack-boot-instance/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/10/31/openstack-boot-instance/" data-id="ck4ffti6a000j3jsqkwp9d46i" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openstack/">openstack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-about-basketball-about-Manu-Ginobili" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/19/about-basketball-about-Manu-Ginobili/" class="article-date">
+  <time datetime="2017-07-19T15:36:11.000Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/19/about-basketball-about-Manu-Ginobili/">妖刀，潘帕斯草原上永远的雄鹰</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>马努·吉诺比利，效力于NBA圣安东尼奥马刺队，球衣号码20号，司职得分后卫。左手球员，善于蛇形突破和远射，并有独门绝技欧洲步。巅峰期间就是无解般的存在。曾经凭借一己之力摧毁了活塞钢铁般的防守。江湖上一直流传着这样一句话：顺境看帕克，逆境看邓肯，绝境看马努。<br><img src="http://ot8956ufo.bkt.clouddn.com/Manu_01.jpg" alt=""><br>
+        
+          <p class="article-more-link">
+            <a href="/2017/07/19/about-basketball-about-Manu-Ginobili/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/07/19/about-basketball-about-Manu-Ginobili/" data-id="ck4ffti5m00053jsqw29lye4d" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/体育/">体育</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-about-adolescency-and-about-restless" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/19/about-adolescency-and-about-restless/" class="article-date">
+  <time datetime="2017-07-18T16:07:56.000Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/19/about-adolescency-and-about-restless/">在成长的过程中，我丢失了哪些东西</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于工作性质的原因，造成了日常生活非常忙碌的假象，进而也不愿意去浪费时间去思考关于自己的一些事情，尤其是这些事情对未来没有丝毫的影响。种种原因吧，导致对过去有意义的的时光里发生的一些有趣的事情也渐渐给遗忘了。好不容易在这个时间段想去回忆一些东西，记录下来，当然了，不是为了要证明什么，只为了让自己对以往有一个说法。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/07/19/about-adolescency-and-about-restless/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/07/19/about-adolescency-and-about-restless/" data-id="ck4ffti5900023jsqr7bhmuio" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/我/">我</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-do-not-giving-up-yourself" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/13/do-not-giving-up-yourself/" class="article-date">
+  <time datetime="2017-07-13T13:04:54.000Z" itemprop="datePublished">2017-07-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/13/do-not-giving-up-yourself/">永远不要放弃自己</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于最近的工作不是很顺利，连带着影响了自己的生活，所有想着静静的坐下来，沉淀沉淀自己，进而给自己一些行而有效的建议，不让自己永远颓废下去，走上不归路。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/07/13/do-not-giving-up-yourself/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://l-zz.cn/2017/07/13/do-not-giving-up-yourself/" data-id="ck4ffti5x000b3jsqs37lr1h1" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/我/">我</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+
+
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页&raquo;</a>
+  </nav>
+</section>
+           
+    <aside id="sidebar">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+     
+        <h3 class="follow-title ">Follow me</h3>
+     
+    <div class="widget follow">
+      
+              <a class="github" aria-hidden="true" href="https://github.com/armstrong-liu" target="_blank" title="Github"></a>
+      
+      
+              <!--<a class="weibo" aria-hidden="true"  href="http://weibo.com/laohoubin" target="_blank" title="微博"></a>-->
+      
+      
+              <a class="zhihu" aria-hidden="true"  href="https://www.zhihu.com/people/liu-zhuang-zhuang-61-95" target="_blank" title="知乎"></a>
+      
+      
+            <a class="email" aria-hidden="true"  href="mailto:776824297@qq.com" target="_blank" title="邮箱"></a>
+      
     </div>
   </div>
 
 
   
     
+  
+    
+
+  
+    
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title tagcloud">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 14px;">Git</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/Ovrit/" style="font-size: 14px;">Ovrit</a> <a href="/tags/Python/" style="font-size: 25px;">Python</a> <a href="/tags/openstack/" style="font-size: 19.5px;">openstack</a> <a href="/tags/体育/" style="font-size: 14px;">体育</a> <a href="/tags/健身/" style="font-size: 14px;">健身</a> <a href="/tags/感悟/" style="font-size: 19.5px;">感悟</a> <a href="/tags/我/" style="font-size: 25px;">我</a> <a href="/tags/程序员成长/" style="font-size: 14px;">程序员成长</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2020/03/20/hello-world/">Hello World</a>
+            <a href="/2017/12/08/openstack-python-pdb/">Openstack如何进行代码调试</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/07/python-with/">浅谈 Python 的 with 语句</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/01/python-function-decorator/">Python之强大的装饰器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/29/python-internal-functions/">简单的几个python内置函数</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/27/we-should-not-have-been-this-way/">我们原本不该是这样</a>
           </li>
         
       </ul>
@@ -152,45 +593,152 @@
   </div>
 
   
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title archive">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+  
+<!--    
+<div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+        <ul>
+            
+            <li>
+                <a href="http://blog.giscafer.com">giscafer&#39;s blog</a>
+            </li>
+            
+            <li>
+                <a href="http://www.gis520.com">GIS520社区</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+-->
+
+  
+    <!--微信公众号二维码-->
+<!--
+  <div class="widget-wrap">
+    <h3 class="follow-title ">WeChat</h3>
+    <div class="widget wechat-widget">
+        <img src="http://blog.giscafer.com/static/images/qrcode_giscafer.jpg" alt="扫码关注" width="250"/>
+    </div>
+  </div>
+-->
+
+
+  
 </aside>
-        
+
       </div>
       <footer id="footer">
   
   <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    <div id="footer-left">
+      &copy; 2014 - 2019 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+    <!--
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;776824297@qq.com
+    </div>
+-->
+     <div id="footer-right">
+       <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备17036731号-1</a>
     </div>
   </div>
 </footer>
+ <script src="/jquery/jquery.min.js"></script>
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">首页</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
   
 </nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
 
 
   
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
 
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
 <script src="/js/script.js"></script>
-
-
-
-
+<script src="/js/elevator.js"></script>
   </div>
 </body>
 </html>

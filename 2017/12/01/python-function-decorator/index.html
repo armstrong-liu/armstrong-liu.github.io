@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python之强大的装饰器 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Python有大量强大又贴心的特性，如果要列个最受欢迎排行榜，那么装饰器绝对会在其中。 刚接触装饰器，会觉得代码不多却难以理解。其实装饰器的语法本身挺简单的，复杂是因为同时混杂了其它的概念。下面我们一起抛去无关概念，简单地理解下Python的装饰器。本文只会讲解函数装饰器而不牵涉到类装饰器。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python之强大的装饰器">
+<meta property="og:url" content="http://yoursite.com/2017/12/01/python-function-decorator/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Python有大量强大又贴心的特性，如果要列个最受欢迎排行榜，那么装饰器绝对会在其中。 刚接触装饰器，会觉得代码不多却难以理解。其实装饰器的语法本身挺简单的，复杂是因为同时混杂了其它的概念。下面我们一起抛去无关概念，简单地理解下Python的装饰器。本文只会讲解函数装饰器而不牵涉到类装饰器。">
+<meta property="og:updated_time" content="2017-12-01T11:47:17.526Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python之强大的装饰器">
+<meta name="twitter:description" content="Python有大量强大又贴心的特性，如果要列个最受欢迎排行榜，那么装饰器绝对会在其中。 刚接触装饰器，会觉得代码不多却难以理解。其实装饰器的语法本身挺简单的，复杂是因为同时混杂了其它的概念。下面我们一起抛去无关概念，简单地理解下Python的装饰器。本文只会讲解函数装饰器而不牵涉到类装饰器。">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python-function-decorator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/01/python-function-decorator/" class="article-date">
+  <time datetime="2017-12-01T11:41:37.000Z" itemprop="datePublished">2017-12-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python之强大的装饰器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Python有大量强大又贴心的特性，如果要列个最受欢迎排行榜，那么装饰器绝对会在其中。</p>
+<p>刚接触装饰器，会觉得代码不多却难以理解。其实装饰器的语法本身挺简单的，复杂是因为同时混杂了其它的概念。下面我们一起抛去无关概念，简单地理解下Python的装饰器。本文只会讲解函数装饰器而不牵涉到类装饰器。<br><a id="more"></a></p>
+<h3 id="装饰器的原理"><a href="#装饰器的原理" class="headerlink" title="装饰器的原理"></a>装饰器的原理</h3><p>通过一个例子直观的感受下<code>python</code>的装饰器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def log(func):</div><div class="line">    @functools.wraps(func)</div><div class="line">    def wrapper(*args, **kw):</div><div class="line">        print(&apos;hello world&apos;)</div><div class="line">        return func(*args, **kw)</div><div class="line">    return wrapper</div><div class="line"></div><div class="line">@log</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div></pre></td></tr></table></figure></p>
+<p><code>log</code>就是一个装饰器。被<code>log</code>装饰的<code>now</code>，执行<code>now()</code>方法时都会打印<code>hello world</code>。</p>
+<h3 id="理解装饰器的准备工作"><a href="#理解装饰器的准备工作" class="headerlink" title="理解装饰器的准备工作"></a>理解装饰器的准备工作</h3><p>接下来我们分成三部分来做准备工作。</p>
+<h4 id="函数亦是对象"><a href="#函数亦是对象" class="headerlink" title="函数亦是对象"></a>函数亦是对象</h4><p>在<code>python</code>中<code>万物</code>皆是对象，当然这的<code>万物</code>自然也包括函数了。</p>
+<p>我们定义个<code>print_str</code>函数。这时<code>print_str</code>也是个对象，它能做所有对象的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">def print_str():</div><div class="line">    return &apos;hello world&apos;</div></pre></td></tr></table></figure>
+<p>所有对象都有三种特性: id、类型、值。接下来就看看函数是否有这三种特性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">id(print_str)</div><div class="line">139764090382048</div><div class="line">type(print_str)</div><div class="line">&lt;type &apos;function&apos;&gt;</div><div class="line">print_str</div><div class="line">&lt;function print_str at 0x7f1d5cf5a6e0&gt;</div></pre></td></tr></table></figure></p>
+<p>所以函数也是对象，跟其他对象一样也可以被赋值给其它变量。同时可以当参数传递，也可以当返回值。</p>
+<h4 id="是个语法糖"><a href="#是个语法糖" class="headerlink" title="@是个语法糖"></a>@是个语法糖</h4><p>装饰器的@没有做什么特别的事，不用它也可以实现一样的功能，只不过需要更多的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@log</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div></pre></td></tr></table></figure></p>
+<p>上面的代码等价于下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div><div class="line">now = log(now)</div></pre></td></tr></table></figure></p>
+<p><code>log</code>是个函数，它要求入参是函数对象，返回值是函数对象。<code>@</code>的语法糖其实是省去了上面最后一行代码，使可读性更好。用了装饰器后，每次调用<code>now</code>，真正调用的是<code>log</code>返回的函数对象。</p>
+<h4 id="嵌套函数和闭包"><a href="#嵌套函数和闭包" class="headerlink" title="嵌套函数和闭包"></a>嵌套函数和闭包</h4><p>Python的函数可以嵌套定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def outer():</div><div class="line">    print(&apos;Before def:&apos;, locals())</div><div class="line">    def inner():</div><div class="line">        pass</div><div class="line">    print(&apos;After def:&apos;, locals())</div><div class="line">    return inner</div></pre></td></tr></table></figure>
+<p><code>inner</code>是在<code>outer</code>内定义的，所以算<code>outer</code>的局部变量。执行到<code>def inner</code>时函数对象才创建，因此每次调用<code>outer</code>都会创建一个新的<code>inner</code>。下面可以看出，每次返回的<code>inner</code>是不同的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">outer()</div><div class="line">Before def: &#123;&#125;</div><div class="line">After def: &#123;&apos;inner&apos;: &lt;function outer.&lt;locals&gt;.inner at 0x7f0b18fa0048&gt;&#125;</div><div class="line">&lt;function outer.&lt;locals&gt;.inner at 0x7f0b18fa0048&gt;</div><div class="line"></div><div class="line">outer()</div><div class="line">Before def: &#123;&#125;</div><div class="line">After def: &#123;&apos;inner&apos;: &lt;function outer.&lt;locals&gt;.inner at 0x7f0b18fa00d0&gt;&#125;</div><div class="line">&lt;function outer.&lt;locals&gt;.inner at 0x7f0b18fa00d0&gt;</div></pre></td></tr></table></figure></p>
+<p>说到嵌套函数就不得不提闭包，在这里只说下闭包的两个特点：</p>
+<ol>
+<li><code>inner</code>能访问<code>outer</code>及其祖先函数的命名空间内的变量(局部变量，函数参数)。</li>
+<li>调用<code>outer</code>已经返回了，但是它的命名空间被返回的<code>inner</code>对象引用，所以还不会被回收。</li>
+</ol>
+<h3 id="用函数实现装饰器"><a href="#用函数实现装饰器" class="headerlink" title="用函数实现装饰器"></a>用函数实现装饰器</h3><p>装饰器要求入参是函数对象，返回值是函数对象，嵌套函数完全能胜任。</p>
+<p>这里我们还是使用上边的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def log(func):</div><div class="line">    @functools.wraps(func)</div><div class="line">    def wrapper(*args, **kw):</div><div class="line">        print(&apos;hello world&apos;)</div><div class="line">        return func(*args, **kw)</div><div class="line">    return wrapper</div><div class="line"></div><div class="line">@log</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div><div class="line">    </div><div class="line">now()</div></pre></td></tr></table></figure></p>
+<p>注意：因为返回的<code>wrapper</code>还在引用着，所以存在于<code>log</code>命名空间的<code>func</code>不会消失。<code>log</code>可以装饰多个函数，<code>wrapper</code>不会调用混淆，因为每次调用<code>log</code>，都会有创建新的命名空间和新的<code>wrapper</code>。</p>
+<h3 id="实现带参数的装饰器？"><a href="#实现带参数的装饰器？" class="headerlink" title="实现带参数的装饰器？"></a>实现带参数的装饰器？</h3><p>带参数的装饰器，有时会异常的好用。我们看个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@log(&apos;DEBUG&apos;)</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div><div class="line"></div><div class="line">now()</div><div class="line">DEBUG: hello world</div><div class="line">2015-3-25</div></pre></td></tr></table></figure></p>
+<p>怎么做到的呢？其实这跟装饰器语法没什么关系。去掉@语法糖会变得很容易理解。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@log(&apos;DEBUG&apos;)</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div><div class="line">unnamed_decorator = log(&apos;DEBUG&apos;)</div><div class="line">now = unnamed_decorator(now)</div></pre></td></tr></table></figure></p>
+<p>上面代码中的<code>unnamed_decorator</code>才是真正的装饰器，<code>log</code>是个普通的函数，它的返回值是装饰器。</p>
+<p>来看一下具体实现的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def log(level):</div><div class="line">    print(&apos;Create decorator&apos;)</div><div class="line"></div><div class="line">    # 这部分跟通常的装饰器一样，只是wrapper通过闭包访问了变量level</div><div class="line">    def decorator(func):</div><div class="line">        print(&apos;Initialize&apos;)</div><div class="line"></div><div class="line">        def wrapper(*args, **kw):</div><div class="line">            print(&apos;%s: Hellow World&apos; % level)</div><div class="line">        return wrapper</div><div class="line">    # log 返回装饰器</div><div class="line">    return decorator</div></pre></td></tr></table></figure></p>
+<h3 id="functools-wraps"><a href="#functools-wraps" class="headerlink" title="functools.wraps"></a>functools.wraps</h3><p>Python的装饰器倍感贴心的地方是对调用方透明。调用方完全不知道也不需要知道调用的函数被装饰了。这样我们就能在调用方的代码完全不改动的前提下，给函数patch功能，重要的事情讲三遍：patch，patch，patch。</p>
+<p>为了对调用方透明，装饰器返回的对象要伪装成被装饰的函数。伪装得越像，对调用方来说差异越小。有时光伪装函数名和参数是不够的，因为<code>Python</code>的函数对象有一些元信息调用方可能读取了。为了连这些元信息也伪装上，<code>functools.wraps</code>出场了。它能用于把被调用函数的<code>__module__</code>，<code>__name__</code>，<code>__qualname__</code>，<code>__doc__</code>，<code>__annotations__</code>赋值给装饰器返回的函数对象。</p>
+<p>使用<code>functools.wraps</code>的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def log(func):</div><div class="line">    @functools.wraps(func)</div><div class="line">    def wrapper(*args, **kw):</div><div class="line">        print(&apos;hello world&apos;)</div><div class="line">        return func(*args, **kw)</div><div class="line">    return wrapper</div></pre></td></tr></table></figure></p>
+<p>不使用<code>functools.wraps</code>的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def log(func):</div><div class="line">    def wrapper(*args, **kw):</div><div class="line">        print(&apos;hello world&apos;)</div><div class="line">        return func(*args, **kw)</div><div class="line">    return wrapper</div></pre></td></tr></table></figure></p>
+<p>对比一下效果两种情况的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@log</div><div class="line">def now():</div><div class="line">    print(&apos;2015-3-25&apos;)</div></pre></td></tr></table></figure></p>
+<p>不用functools.wraps的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">now.__name__</div><div class="line"></div><div class="line">&apos;wrapper&apos;</div></pre></td></tr></table></figure></p>
+<p>用functools.wraps的结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">now.__name__</div><div class="line"></div><div class="line">&apos;now&apos;</div></pre></td></tr></table></figure></p>
+<p>很明显，结果一目了然。实现装饰器时往往不知道调用方会怎么用，所以养成好习惯加上<code>functools.wraps</code>吧。</p>
+<p>传送门：<a href="http://www.lightxue.com/understand-python-decorator-the-easy-way" target="_blank" rel="external">简单地理解 Python 的装饰器</a><br>告侵删。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/01/python-function-decorator/" data-id="ck4ffti6f000r3jsqvt8su04t" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/07/python-with/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          浅谈 Python 的 with 语句
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/29/python-internal-functions/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">简单的几个python内置函数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#装饰器的原理"><span class="toc-number">1.</span> <span class="toc-text">装饰器的原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解装饰器的准备工作"><span class="toc-number">2.</span> <span class="toc-text">理解装饰器的准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#函数亦是对象"><span class="toc-number">2.1.</span> <span class="toc-text">函数亦是对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#是个语法糖"><span class="toc-number">2.2.</span> <span class="toc-text">@是个语法糖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#嵌套函数和闭包"><span class="toc-number">2.3.</span> <span class="toc-text">嵌套函数和闭包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用函数实现装饰器"><span class="toc-number">3.</span> <span class="toc-text">用函数实现装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现带参数的装饰器？"><span class="toc-number">4.</span> <span class="toc-text">实现带参数的装饰器？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functools-wraps"><span class="toc-number">5.</span> <span class="toc-text">functools.wraps</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+<!--
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;776824297@qq.com
+    </div>
+-->
+     <div id="footer-right">
+       <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备17036731号-1</a>
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
